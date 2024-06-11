@@ -14,8 +14,8 @@ Explanation: There is a cycle in the linked list, where tail connects to the sec
 
 Solution
 - slow moves 1 step at a time, fast moves 2 steps at a time.
-- Sau mỗi laan khoảng cách giữa 2 con trỏ tăng lên 1. Khi khoảng cách đến c thì gặp nhau
-- 0 0/ 1 2/ 2 4/ 3 6/ 4 8
+- Sau mỗi laan khoảng cách giữa 2 con trỏ tăng lên 1. Khi khoảng cách đến n*c thì gặp nhau
+- 0 0/ 1 2/ 2 4/ 3 6/ 4 8...
 - when slow and fast meet each other, they must be on the cycle
 
         x denotes the length of the linked list before starting the circle
@@ -34,6 +34,7 @@ public ListNode detectCycle(ListNode head) {
         while (fast != null && fast.next != null) {
             slow = slow.next;
             fast = fast.next.next;
+            // When they meet
             if (slow == fast) break;
         }
         if (fast == null || fast.next == null) return null;
