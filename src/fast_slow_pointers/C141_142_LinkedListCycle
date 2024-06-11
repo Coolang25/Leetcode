@@ -1,0 +1,45 @@
+Given the head of a linked list, return the node where the cycle begins.
+If there is no cycle, return null.
+There is a cycle in a linked list if there is some node in the list
+that can be reached again by continuously following the next pointer.
+Internally, pos is used to denote the index of the node that
+tail's next pointer is connected to (0-indexed). It is -1 if there is no cycle.
+Note that pos is not passed as a parameter.
+
+
+Input: head = [3,2,0,-4], pos = 1
+Output: tail connects to node index 1
+Explanation: There is a cycle in the linked list, where tail connects to the second node.
+
+
+Solution
+- slow moves 1 step at a time, fast moves 2 steps at a time.
+- Sau mỗi laan khoảng cách giữa 2 con trỏ tăng lên 1. Khi khoảng cách đến c thì gặp nhau
+- 0 0/ 1 2/ 2 4/ 3 6/ 4 8
+- when slow and fast meet each other, they must be on the cycle
+
+        x denotes the length of the linked list before starting the circle
+        y denotes the distance from the start of the cycle to where slow and fast met
+        C denotes the length of the cycle
+
+when they meet, slow traveled (x + y) steps => fast traveled 2 * (x + y) steps,
+=> 2*(x+y) - (x+y) = n*C => x + y = nC
+
+=> slow continue to travel from y and after x more steps, slow will return to the start of the cycle.
+head moves x steps and arrives at the start of the cycle.
+
+
+public ListNode detectCycle(ListNode head) {
+        ListNode slow = head, fast = head;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+            if (slow == fast) break;
+        }
+        if (fast == null || fast.next == null) return null;
+        while (head != slow) {
+            head = head.next;
+            slow = slow.next;
+        }
+        return head;
+    }
